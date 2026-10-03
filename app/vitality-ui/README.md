@@ -1,6 +1,6 @@
 # Vitality UI preview
 
-A mobile-first, mock-only Next.js/TypeScript/Tailwind UI for the Vitality referral handoff. The feature is self-contained under `app/vitality-ui/`, available at `/vitality-ui`, and also re-exported at `/` for this standalone repository.
+A mobile-first, mock-only Next.js/TypeScript/Tailwind UI for the Vitality referral handoff. It is isolated from the existing testing application under `app/vitality-ui/` and is available at `/vitality-ui`.
 
 ## Scope and safety
 
@@ -51,7 +51,7 @@ app/vitality-ui/
     └── StatusBadge.tsx
 ```
 
-Tailwind utility classes are used in the component markup for small layout concerns, while `vitality.module.css` contains the locally scoped design system and responsive component styles. The root stylesheet contains only the Tailwind import and a minimal document reset.
+Tailwind utility classes are used in the component markup for small layout concerns, while `vitality.module.css` contains the locally scoped design system and responsive component styles. The existing global stylesheet and package files are unchanged.
 
 ## Data model and statuses
 
