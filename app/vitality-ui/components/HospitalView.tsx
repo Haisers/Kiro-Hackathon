@@ -206,7 +206,7 @@ function HospitalActions({
 
         {action === "accept" ? (
           <form className={styles.aiDraft} onSubmit={submitAppointment} noValidate>
-            <div className={`${styles.notice} ${styles.warning}`}>Appointment slots below are demo data. Confirming one changes only this in-memory preview.</div>
+            <div className={`${styles.notice} ${styles.warning}`}>These are practice appointment times. Choosing one only updates this demo.</div>
             {error ? <p className={styles.errorText} role="alert">{error}</p> : null}
             <div className={styles.formGrid}>
               <div className={`${styles.field} ${styles.fieldWide}`}>
@@ -278,7 +278,7 @@ export function HospitalView(props: HospitalViewProps) {
       <main className={styles.content}>
         <div className={styles.pageHeader}>
           <div>
-            <p className={styles.eyebrow}>Hospital team · demo staff</p>
+            <p className={styles.eyebrow}>Hospital team · practice staff</p>
             <h1 className={styles.title}>{tab === "referrals" ? "Incoming referrals" : "Appointments"}</h1>
             <p className={styles.subtitle}>{data.staff.map((member) => member.name).join(" · ")} · fictional staff at {data.staff[0]?.facility}</p>
           </div>
@@ -325,7 +325,7 @@ export function HospitalView(props: HospitalViewProps) {
                 onExplainAction={props.onExplainAction}
                 actions={<HospitalActions {...props} referral={selected} />}
               />
-            ) : <section className={`${styles.card} ${styles.detailPlaceholder}`}><EmptyState title="Select a case" message="Choose a referral to review screening findings and original document metadata together." /></section>}
+            ) : <section className={`${styles.card} ${styles.detailPlaceholder}`}><EmptyState title="Select a case" message="Choose a referral to see the screening and attached file names together." /></section>}
           </div>
         </div>
       </main>

@@ -72,12 +72,12 @@ export function CaseDetail({
               <p className={styles.factValue}>{screening.reasonForReferral}</p>
             </div>
           </div>
-          <p className={styles.clinicalDisclaimer}>Screening readings are recorded findings, not a diagnosis or clinical algorithm.</p>
+          <p className={styles.clinicalDisclaimer}>This is a screening record, not a diagnosis.</p>
         </div>
 
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Available original documents</h3>
-          <p className={styles.sectionHint}>Mock metadata only. No file is stored and no document authenticity is claimed.</p>
+          <p className={styles.sectionHint}>Demo files only. Nothing is uploaded or saved.</p>
           {documents.length ? (
             <div className={styles.documentList}>
               {documents.map((document) => (
@@ -86,7 +86,7 @@ export function CaseDetail({
                   <div>
                     <p className={styles.documentName}>{document.fileName}</p>
                     <p className={styles.documentMeta}>
-                      {DOCUMENT_TYPE_LABEL[document.type]} · {formatManilaDate(document.documentDate)} · mock attachment
+                      {DOCUMENT_TYPE_LABEL[document.type]} · {formatManilaDate(document.documentDate)} · demo file
                     </p>
                   </div>
                 </div>
@@ -106,7 +106,7 @@ export function CaseDetail({
         <section className={`${styles.card} ${styles.cardBody}`}>
           <h3 className={styles.sectionTitle}>No appointment confirmed</h3>
           <p className={styles.notice}>
-            This is a referral, not an appointment. Hospital staff must accept it and confirm a date and instructions.
+            The hospital has not booked a visit yet. Hospital staff must confirm the date, place, and instructions first.
           </p>
         </section>
       )}

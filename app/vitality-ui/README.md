@@ -21,11 +21,12 @@ Run the existing application, then open:
 /vitality-ui
 ```
 
-Use the role switcher at the top to preview:
+Use the role switcher at the top to preview two staff work areas:
 
-- **BHW:** Patients / Follow-up, search and filters, mobile detail navigation, screening capture, mock document metadata, review-before-submit, appointment/outcome/history.
-- **Hospital:** Referrals / Appointments, combined findings and original document metadata, more-information requests, confirmed appointment form, separate attendance, assessment outcome, and return-to-patient/BHW action.
-- **Patient:** exactly one selected case, prominent confirmed appointment, original and staff-approved explained instructions, referral progress, outcome and next step. No staff queue or other patients.
+- **BHW:** Patients / Follow-up, search and filters, mobile detail navigation, screening capture, demo document names, review-before-submit, appointment/outcome/history.
+- **Hospital team:** Referrals / Appointments, combined findings and document names, more-information requests, confirmed appointment form, separate attendance, assessment outcome, and return-to-BHW action.
+
+There is deliberately no patient-facing view or patient role switcher.
 
 The preview includes loading, empty, error, form-validation, and successful-save states. The “Preview error state” control is desktop-only; loading runs on initial entry, empty states are visible through filters/queues, and successful saves use an accessible status toast.
 
@@ -45,8 +46,6 @@ app/vitality-ui/
     ├── CaseDetail.tsx
     ├── ExplainInstructions.tsx
     ├── HospitalView.tsx
-    ├── PatientView.tsx
-    ├── ReferralProgress.tsx
     ├── StateViews.tsx
     └── StatusBadge.tsx
 ```

@@ -99,7 +99,7 @@ function validateDraft(draft: ScreeningDraft): Record<string, string> {
   if ((draft.systolic2 && !draft.diastolic2) || (!draft.systolic2 && draft.diastolic2)) errors.reading2 = "Enter both values for the second reading, or leave both blank.";
   if (!draft.history.trim()) errors.history = "Add relevant history, or write “None reported.”";
   if (!draft.reason.trim()) errors.reason = "Add a reason for referral.";
-  if (draft.includeDocument && !draft.fileName) errors.fileName = "Choose a mock file to include.";
+  if (draft.includeDocument && !draft.fileName) errors.fileName = "Choose a file to include.";
   if (draft.includeDocument && !draft.documentDate) errors.documentDate = "Enter the document date.";
   return errors;
 }
@@ -221,7 +221,7 @@ function RecordScreeningModal({ data, initialPatientId, onClose, onSubmit }: Rec
               <p className={styles.dividerText}>Available documents</p>
               <label className={styles.checkboxRow}>
                 <input type="checkbox" checked={draft.includeDocument} onChange={(e) => update("includeDocument", e.target.checked)} />
-                <span><strong>Attach a document</strong><br /><span className={styles.helpText}>Mock upload only. The chosen file is not read, sent, or stored.</span></span>
+                <span><strong>Attach a document</strong><br /><span className={styles.helpText}>Demo only. The file is not sent or saved.</span></span>
               </label>
               {draft.includeDocument ? (
                 <div className={`${styles.formGrid} ${styles.mockUpload}`}>
@@ -237,9 +237,9 @@ function RecordScreeningModal({ data, initialPatientId, onClose, onSubmit }: Rec
                     {errors.documentDate ? <span className={styles.errorText}>{errors.documentDate}</span> : null}
                   </div>
                   <div className={`${styles.field} ${styles.fieldWide}`}>
-                    <label htmlFor="mock-file">Choose mock file</label>
+                    <label htmlFor="mock-file">Choose file</label>
                     <input id="mock-file" type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => update("fileName", e.target.files?.[0]?.name ?? "")} />
-                    <span className={styles.helpText}>Preview records filename metadata only; it does not store file contents.</span>
+                    <span className={styles.helpText}>Only the file name is shown. The file is not uploaded.</span>
                     {errors.fileName ? <span className={styles.errorText}>{errors.fileName}</span> : null}
                   </div>
                 </div>
@@ -321,9 +321,9 @@ export function BhwView({ data, onSubmitScreening }: BhwViewProps) {
       <main className={styles.content}>
         <div className={styles.pageHeader}>
           <div>
-            <p className={styles.eyebrow}>BHW workspace</p>
+            <p className={styles.eyebrow}>Barangay health worker</p>
             <h1 className={styles.title}>{tab === "patients" ? "Patients" : "Follow-up"}</h1>
-            <p className={styles.subtitle}>{tab === "patients" ? `${data.city} · ${data.barangays.length} illustrative barangays · ${data.patients.length} fictional patients` : "Cases waiting for information, attendance, outcomes, or another action."}</p>
+            <p className={styles.subtitle}>{tab === "patients" ? `${data.city} · ${data.patients.length} practice patients` : "People who need information, a visit check, results, or another next step."}</p>
           </div>
           <button className={`${styles.primaryButton} ${styles.desktopOnly}`} type="button" onClick={() => setRecording(true)}>+ Record screening</button>
         </div>

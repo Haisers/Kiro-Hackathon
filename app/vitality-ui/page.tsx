@@ -13,10 +13,9 @@ import {
   type RequestInfoPayload,
 } from "./components/HospitalView";
 import type { ExplainInstructionsPayload } from "./components/ExplainInstructions";
-import { PatientView } from "./components/PatientView";
 import { ErrorState, LoadingState, SaveToast } from "./components/StateViews";
 
-type PreviewRole = "bhw" | "hospital" | "patient";
+type PreviewRole = "bhw" | "hospital";
 type PreviewState = "ready" | "loading" | "error";
 
 function activity(id: string, actor: ActivityItem["actor"], text: string): ActivityItem {
@@ -198,18 +197,16 @@ export default function VitalityPreviewPage() {
           text: `Draft explanation: ${referral.appointment.preparationInstructions} Bring: ${referral.appointment.whatToBring}`,
           approved: false,
         },
-        activity: [...referral.activity, activity(nextId("act"), "System", "Optional mock AI wording generated as an unapproved draft.")],
+        activity: [...referral.activity, activity(nextId("act"), "System", "A draft explanation was created and still needs staff approval.")],
       };
     }));
-    setToast(payload.action === "approve" ? "Wording marked staff-approved after comparison with the original." : "Mock AI wording generated as an unapproved draft.");
+    setToast(payload.action === "approve" ? "The explanation was checked and approved." : "Draft explanation created. Hospital staff must check it.");
   }
 
   function retry() {
     setPreviewState("loading");
     window.setTimeout(() => { setData(getVitalityData()); setPreviewState("ready"); }, 450);
   }
-
-  const patientReferral = data?.referrals.find((referral) => referral.id === "ref-001") ?? data?.referrals[0];
 
   return (
     <div className={`${styles.vitality} min-h-screen`}>
@@ -218,10 +215,10 @@ export default function VitalityPreviewPage() {
           <div className={`${styles.topBarInner} flex items-center justify-between`}>
             <div className={styles.brand}>
               <span className={styles.brandMark} aria-hidden="true">V</span>
-              <div><span className={styles.brandName}>vitality</span><span className={styles.brandCaption}> · referral handoff preview</span></div>
+              <div><span className={styles.brandName}>vitality</span><span className={styles.brandCaption}> · patient referrals</span></div>
             </div>
-            <div className={styles.roleSwitcher} aria-label="Preview a Vitality role">
-              {(["bhw", "hospital", "patient"] as PreviewRole[]).map((item) => (
+            <div className={styles.roleSwitcher} aria-label="Choose your work area">
+              {(["bhw", "hospital"] as PreviewRole[]).map((item) => (
                 <button
                   className={`${styles.roleButton} ${role === item ? styles.roleButtonActive : ""}`}
                   type="button"
@@ -229,7 +226,7 @@ export default function VitalityPreviewPage() {
                   aria-pressed={role === item}
                   onClick={() => setRole(item)}
                 >
-                  {item === "bhw" ? "BHW" : item === "hospital" ? "Hospital" : "Patient"}
+                  {item === "bhw" ? "BHW" : "Hospital team"}
                 </button>
               ))}
             </div>
@@ -237,8 +234,8 @@ export default function VitalityPreviewPage() {
         </header>
         <div className={styles.demoStrip}>
           <div className={styles.demoStripInner}>
-            <span className={styles.demoPill}>FICTIONAL DEMO</span>
-            <span>One fictional city · two illustrative barangays · five fictional patients · hospital staff, slots, and clinical outcomes are demo data.</span>
+            <span className={styles.demoPill}>DEMO</span>
+            <span>Practice records only. All people, hospital staff, schedules, and results are made up.</span>
           </div>
         </div>
 
@@ -247,7 +244,7 @@ export default function VitalityPreviewPage() {
         {previewState === "ready" && data ? (
           role === "bhw" ? (
             <BhwView data={data} onSubmitScreening={submitScreening} />
-          ) : role === "hospital" ? (
+          ) : (
             <HospitalView
               data={data}
               onRequestInfo={requestInfo}
@@ -257,10 +254,6 @@ export default function VitalityPreviewPage() {
               onReturnOutcome={returnOutcome}
               onExplainAction={explainInstructions}
             />
-          ) : patientReferral ? (
-            <div className={styles.patientLayout}><PatientView data={data} referral={patientReferral} /></div>
-          ) : (
-            <ErrorState message="The selected fictional patient case is unavailable." onRetry={retry} />
           )
         ) : null}
 
