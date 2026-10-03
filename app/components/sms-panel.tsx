@@ -14,8 +14,8 @@ export default function SmsPanel({patient,onAccepted}:{patient:Case;onAccepted:(
       const r=await fetch(`/api/sms?case=${encodeURIComponent(patient.id)}`,{cache:"no-store",signal:signal||AbortSignal.timeout(15000)}),b=await r.json();
       if(!r.ok)throw new Error(b.error||"Could not check message status.");
       setSubmission(b.submission||"none");
-      if(b.providerStatus)setStatus(`Message status: ${b.providerStatus}.${b.providerType==="voice"?" Unexpected voice report — ask for help before sending again.":""}`);
-      else setStatus(b.submission==="accepted"?"Message submitted. Delivery is not confirmed.":b.submission==="pending"||b.submission==="unknown"?"Message status is uncertain. Ask for help before sending again.":"");
+      if(b.providerStatus)setStatus(`Provider status: ${b.providerStatus}.${b.providerType==="voice"?" Unexpected voice report â€” ask the administrator to check.":""}`);
+      else setStatus(b.submission==="accepted"?"Submitted to the SMS provider. Delivery not confirmed.":b.submission==="pending"||b.submission==="unknown"?"Message status is uncertain. Ask the administrator to check before resending.":"");
     }catch(e){if(!signal?.aborted){setSubmission("check_failed");setStatus(e instanceof Error?e.message:"Could not check message status.");}}
     finally{if(!signal?.aborted)setChecking(false);}
   },[patient.id]);
