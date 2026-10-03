@@ -1,0 +1,24 @@
+# Dependencies and build output
+/node_modules
+/.next
+/out
+/build
+
+# Local environment and secrets
+.env
+.env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
+!.env.example
+
+# Logs and local tooling
+*.log
+*.pem
+.DS_Store
+.vercel
+*.tsbuildinfo
+next-env.d.ts
