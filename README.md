@@ -1,34 +1,21 @@
-# Vitality Referral UI
+# Vitality minimum referral demo
 
-A mobile-first, mock-only referral handoff preview built with Next.js, TypeScript, and Tailwind CSS.
+BHW screening and original documents → hospital acceptance and demo appointment → reviewed SMS instructions → assessment outcome returned to the BHW.
 
-## Run locally
+Run `npm run dev -- --hostname 127.0.0.1 --port 3000`.
 
-```bash
-npm install
-npm run dev
-```
+## Setup
 
-Open [http://localhost:3000/](http://localhost:3000/) or [http://localhost:3000/vitality-ui](http://localhost:3000/vitality-ui).
+Run `supabase/setup.sql` in Supabase SQL Editor. Set server-only variables from `.env.example` in `.env.local` and restart Next.js. SUPABASE_URL and SUPABASE_SECRET_KEY (or legacy SUPABASE_SERVICE_ROLE_KEY) are required. The server seeds five fictional cases on first database read. Documents use a private Storage bucket. Case saves use version checks and a database unique appointment index. Earlier browser-local records remain untouched but are not imported.
 
-## Preview views
+SNS uses AWS_SNS_REGION or AWS_REGION, registered AWS_SMS_SENDER_ID, verified recipients in AWS_SMS_ALLOWED_NUMBERS, and LOCAL_DEMO_SMS_ENABLED=true. Review the preview and recipient consent before sending. AWS acceptance does not confirm receipt. Persistent send records suppress duplicates even after server restart. Check AWS when a submission is unknown; no automatic retries.
 
-Use the role switcher to explore three fictional workflows:
+Bedrock uses AWS_BEDROCK_REGION or AWS_REGION and AWS_BEDROCK_MODEL_ID, with LOCAL_DEMO_AI_ENABLED=true. Standard SDK server credential chain supports local profiles and environment credentials. Never expose credentials using NEXT_PUBLIC_. AI drafts summaries and approved-plan explanations, with clinician review. It does not select diagnosis, treatment or appointments.
 
-- **BHW:** browse patients and follow-up cases, capture screening details, and submit a demo referral.
-- **Hospital:** review referrals, request information, confirm demo appointments, record attendance, and return demo outcomes.
-- **Patient:** view one selected case, confirmed appointment details, referral progress, and returned outcome.
+## Limits
 
-## Scope and environment
+Localhost-only fictional demo; staff roles are simulated. No real authentication, hospital partner/scheduler, SMS replies, delivery receipts, real clinical care, document extraction or map. Do not deploy or enter real patient data without authentication and authorization.
 
-All patients, staff, locations, appointments, documents, contacts, and clinical outcomes are fictional demo data. State is stored only in browser memory. There is no authentication, backend, API, database, file upload, AWS/Supabase integration, or real clinical workflow.
+## Checks
 
-Environment values are optional placeholders for future integration only. If configuration is added later, copy the placeholder file and provide values locally:
-
-```bash
-cp .env.example .env.local
-```
-
-Never place real credentials in example files, source code, commits, or pull requests. Supplied secrets must remain local and must never be committed.
-
-See [`app/vitality-ui/README.md`](app/vitality-ui/README.md) for component contracts and integration boundaries.
+Lint, TypeScript and production build passed. Sixteen workflow/referral/SMS tests and one local PostgreSQL schema integration test passed. Hosted Supabase, private Storage and live AWS delivery/model output remain unverified until user setup. No SMS or model invocation was sent during these checks.
