@@ -50,7 +50,7 @@ export function ExplainInstructions({ referral, onAction }: ExplainInstructionsP
             type="button"
             onClick={() => onAction({ referralId: referral.id, action: "generate" })}
           >
-            Generate mock explanation draft
+            Create a draft explanation
           </button>
         ) : (
           <p className={styles.notice}>No staff-approved explanation is available. Follow the original hospital instructions.</p>

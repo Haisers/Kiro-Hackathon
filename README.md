@@ -2,6 +2,8 @@
 
 BHW screening and original documents → hospital acceptance and demo appointment → reviewed SMS instructions → assessment outcome returned to the BHW.
 
+The interface has two staff work areas only: **BHW** and **Hospital team**. There is no patient-facing portal.
+
 Run `npm run dev -- --hostname 127.0.0.1 --port 3000`.
 
 ## Setup
