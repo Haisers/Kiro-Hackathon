@@ -1,21 +1,39 @@
-# Vitality minimum referral demo
+# Vitality referral UI
 
-BHW screening and original documents → hospital acceptance and demo appointment → reviewed SMS instructions → assessment outcome returned to the BHW.
+A compact, mobile-first referral handoff prototype for barangay health workers (BHWs) and hospital teams. The main page uses fictional in-memory data, so it opens without Supabase, AWS, or PhilSMS.
 
-Run `npm run dev -- --hostname 127.0.0.1 --port 3000`.
+There are two staff work areas only:
 
-## Setup
+- **BHW:** patients, follow-up, screening capture, document names, and a Metro Manila workload map.
+- **Hospital team:** referral review, information requests, appointment confirmation, attendance, outcomes, and next steps.
 
-Run `supabase/setup.sql` in Supabase SQL Editor. Set server-only variables from `.env.example` in `.env.local` and restart Next.js. SUPABASE_URL and SUPABASE_SECRET_KEY (or legacy SUPABASE_SERVICE_ROLE_KEY) are required. The server seeds five fictional cases on first database read. Documents use a private Storage bucket. Case saves use version checks and a database unique appointment index. Earlier browser-local records remain untouched but are not imported.
+There is no patient-facing portal.
 
-SNS uses AWS_SNS_REGION or AWS_REGION, registered AWS_SMS_SENDER_ID, verified recipients in AWS_SMS_ALLOWED_NUMBERS, and LOCAL_DEMO_SMS_ENABLED=true. Review the preview and recipient consent before sending. AWS acceptance does not confirm receipt. Persistent send records suppress duplicates even after server restart. Check AWS when a submission is unknown; no automatic retries.
+## Run locally
 
-Bedrock uses AWS_BEDROCK_REGION or AWS_REGION and AWS_BEDROCK_MODEL_ID, with LOCAL_DEMO_AI_ENABLED=true. Standard SDK server credential chain supports local profiles and environment credentials. Never expose credentials using NEXT_PUBLIC_. AI drafts summaries and approved-plan explanations, with clinician review. It does not select diagnosis, treatment or appointments.
+```bash
+npm install
+npm run dev
+```
 
-## Limits
+Open [http://localhost:3000](http://localhost:3000).
 
-Localhost-only fictional demo; staff roles are simulated. No real authentication, hospital partner/scheduler, SMS replies, delivery receipts, real clinical care, document extraction or map. Do not deploy or enter real patient data without authentication and authorization.
+No `.env.local` is required for this mock UI. The existing server integration files remain in the repository for future work but are not used by the main preview.
 
-## Checks
+## Metro Manila map prototype
 
-Lint, TypeScript and production build passed. Sixteen workflow/referral/SMS tests and one local PostgreSQL schema integration test passed. Hosted Supabase, private Storage and live AWS delivery/model output remain unverified until user setup. No SMS or model invocation was sent during these checks.
+The BHW Patients screen starts with all Metro Manila city boundaries. Select a city to load its barangays, then select a barangay to filter the patient list. The five fictional patients are assigned to Bangkal and Poblacion in Makati for demonstrating workload filters.
+
+The map never shows patient homes or disease prevalence. Boundary data is stored locally so only OpenStreetMap background tiles require internet access.
+
+Low-resolution boundary files come from [faeldon/philippines-json-maps](https://github.com/faeldon/philippines-json-maps) under the [MIT License](https://github.com/faeldon/philippines-json-maps/blob/master/LICENSE), using 2023 PSGC-based administrative data. See [`public/maps/ATTRIBUTION.md`](public/maps/ATTRIBUTION.md). City of Manila barangay shapes are unavailable in the selected source dataset and are not invented.
+
+## Important limits
+
+- All patients, referrals, staff, appointments, contacts, and outcomes are fictional demo data.
+- Selected document contents are not uploaded or stored.
+- Appointment and clinical actions are simulated.
+- Boundaries are illustrative and must not be treated as current legal or surveying boundaries.
+- Do not enter real patient information or deploy this prototype as a clinical system.
+
+See [`app/vitality-ui/README.md`](app/vitality-ui/README.md) for component contracts and integration notes.
